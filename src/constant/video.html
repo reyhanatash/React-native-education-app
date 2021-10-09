@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <title></title>
+</head>
+
+<body>
+<div id="vod"></div>
+<script>
+    var mobileNumber = '0000000';
+    var streamid;
+
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+
+    function readTextFile(file) {
+        return new Promise((resolve) => {
+            var rawFile = new XMLHttpRequest();
+            rawFile.open("GET", file, false);
+            rawFile.onreadystatechange = () => {
+                if (rawFile.readyState === 4) {
+                    if (rawFile.status === 200 || rawFile.status == 0) {
+                        var allText = rawFile.responseText;
+                        resolve(allText);
+                    }
+                }
+                resolve(null);
+            }
+            rawFile.send(null);
+        })
+    }
+    async function add() {
+
+        let script = document.createElement('script');
+        streamid = getUrlVars()['strid'];
+        let text = await readTextFile('https://stream.famiran.com/' + streamid + '/embed?runajax=true');
+        if (text) {
+            let m = text.match((/kavimo_media_(.*?)"/g));
+            let str = m[0].replace('"', '');
+            let divName = str.split("|")[0];
+            var div = document.createElement('div');
+            div.classList = divName;
+            document.getElementById('vod').append(div);
+            eval(text)
+            // addSign();
+        }
+
+    }
+    add();
+
+    function addSign() {
+        //get phonenumber
+        $.ajax({
+            method: 'GET',
+            // url: 'https://jabiz.famiran.com/api/user/loadinfo',
+            url:`${baseURL}/api/user/loadinfo`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        }).done(data => {
+            //get mobile number
+            mobileNumber = data['data'][0]['fldMobile'];
+            setTimeout(function() {
+                var isLoaded = 0;
+                if (isLoaded !== 1 && (".kavimo_vis_responsive")[0]) {
+                    isLoaded = 1;
+                    var media_obj = window.Vis.libraryMedias.getByHash(streamid);
+                    media_obj.api.DRMText({
+                        text: [mobileNumber], // text to show (only array(s)...)
+                        time: 30, // time to blink (2.5 second)
+                        color: 'red', // text color (optional) ("red","blue","#FFF","#000000")
+                        fontSize: "14px", // text color (optional)
+                        fontStyle: "bold", // style font (optional) ("normal","italic","bold")
+                        fontName: "arial", // font text (optional) ("arial","sf-medium","...")
+                        opacity: 0.2, // opacity text (optional) (Min = 0.1, Max = 1)
+                    });
+                } else {}
+            }, 2000);
+        }).fail(err => {
+            console.log(err)
+        })
+    }
+</script>
+
+</body>
+
+</html>

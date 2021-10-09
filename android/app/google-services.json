@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "423608377932",
+    "firebase_url": "https://tamland-52129.firebaseio.com",
+    "project_id": "tamland-52129",
+    "storage_bucket": "tamland-52129.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423608377932:android:a8e66c3a797223254ccae9",
+        "android_client_info": {
+          "package_name": "com.tamland"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423608377932-bif9n6sqge5uqmpfoue45gkog4tfed0m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCX5J5xtmn_qH0nuZzx9gD1BEX8HmMP6ms"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423608377932-bif9n6sqge5uqmpfoue45gkog4tfed0m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
